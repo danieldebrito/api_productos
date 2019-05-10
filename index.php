@@ -4,7 +4,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 require './composer/vendor/autoload.php';
 require './AccesoDatos.php';
-require './productos/productoApi.php';
+require './pelicula/peliculaApi.php';
 
 $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
@@ -15,17 +15,20 @@ $app->get("/test", function() {
 	echo "Hola mundo desde la API";
 });
 
-$app->group('/productos', function () {
+$app->group('/peliculas', function () {
  
-  $this->get('/', \productoApi::class . ':getAll');
+  $this->get('/', \peliculaApi::class . ':getAll');
 
-  $this->delete('/{id}[/]', \productoApi::class . ':delete');
+  $this->get('/descripcion/{nombre}', \peliculaApi::class . ':getOneDescrip');
 
+
+  $this->delete('/{id}[/]', \peliculaApi::class . ':delete');
+
+   /*
   $this->get('/{id}', \productoApi::class . ':getOne');
 
-  $this->get('/descripcion/{descripcion}', \productoApi::class . ':getOneDescrip');
 
-  /*
+  
  
   $this->get('/{id}', \cdApi::class . ':traerUno');
 

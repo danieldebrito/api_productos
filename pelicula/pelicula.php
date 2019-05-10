@@ -1,28 +1,29 @@
 <?php
-class producto{
+class pelicula{
 
-	public $idProducto;
- 	public $descripcion;
+	public $id;
+ 	public $nombre;
   	public $tipo;
-	public $fechaDeVencimiento;
-	public $precio;
+	public $fechaDeEstreno;
+	public $cantidadPublico;
 	public $rutaDeFoto;
 
 	public static function TraerTodos(){
 			$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
 			$consulta =$objetoAccesoDato->RetornarConsulta("
-			SELECT * FROM `productos` WHERE 1
+			SELECT * FROM `peliculas` WHERE 1 
 			");
 			$consulta->execute();			
-			return $consulta->fetchAll(PDO::FETCH_CLASS, "producto");		
+			return $consulta->fetchAll(PDO::FETCH_CLASS, "pelicula");		
 	}
 
+	
 	public function Borrar($id){
 		try {
             $objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();
 
             $consulta = $objetoAccesoDato->RetornarConsulta("
-			DELETE FROM `productos` WHERE `idProducto` = $id
+			DELETE FROM `peliculas` WHERE `id` = $id
 			");
 
             $consulta->bindValue(':id', $id, PDO::PARAM_STR);
@@ -39,6 +40,18 @@ class producto{
         }
 	}
 
+	public static function TraerUnoPorDescrip($nombre) {
+		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+		$consulta =$objetoAccesoDato->RetornarConsulta("
+		SELECT * FROM `peliculas` WHERE `nombre` = $nombre
+		");
+		$consulta->execute();
+		$pelicula = $consulta->fetchObject('pelicula');
+		return $pelicula;
+	}
+
+	/*
+
 	public static function TraerUno($id) {
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
 		$consulta =$objetoAccesoDato->RetornarConsulta("
@@ -50,19 +63,7 @@ class producto{
 	}
 
 
-	public static function TraerUnoPorDescrip($descripcion) {
-		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("
-		SELECT * FROM `productos` WHERE `descripcion` = $descripcion
-		");
-		$consulta->execute();
-		$producto = $consulta->fetchObject('producto');
-		return $producto;
-	}
 
-
-
-	/*
 
 
 

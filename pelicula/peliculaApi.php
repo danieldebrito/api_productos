@@ -1,22 +1,33 @@
 <?php
-require_once 'producto.php';
+require_once 'pelicula.php';
 require_once 'IApiUsable.php';
 
-class productoApi extends producto /* implements IApiUsable */
+class peliculaApi extends pelicula /* implements IApiUsable */
 {
 
 	public function getAll($request, $response, $args) {
-		$todos=producto::TraerTodos();
+		$todos=pelicula::TraerTodos();
 		$newResponse = $response->withJson($todos, 200);  
 	return $newResponse;
 }
 
+
 public function delete($request,$response,$args){
 	$id = $args["id"];
-	$respuesta = producto::Borrar($id);
+	$respuesta = pelicula::Borrar($id);
 	$newResponse = $response->withJson($respuesta,200);
 	return $newResponse;
 }
+
+public function getOneDescrip($request, $response, $args) {
+	$nombre=$args['nombre'];
+	 $retorno = pelicula::TraerUnoPorDescrip($nombre);
+	 $newResponse = $response->withJson($retorno, 200);  
+	 return $newResponse;
+}
+/*
+
+
 
 
 public function getOne($request, $response, $args) {
@@ -26,15 +37,10 @@ public function getOne($request, $response, $args) {
 	 return $newResponse;
 }
 
-public function getOneDescrip($request, $response, $args) {
-	$descripcion=$args['descripcion'];
-	 $retorno = producto::TraerUnoPorDescrip($descripcion);
-	 $newResponse = $response->withJson($retorno, 200);  
-	 return $newResponse;
-}
 
 
-	/*
+
+	
  	public function TraerUno($request, $response, $args) {
      	$id=$args['id'];
     	$elCd=cd::TraerUnCd($id);
